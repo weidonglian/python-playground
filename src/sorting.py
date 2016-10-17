@@ -2,52 +2,74 @@ import random
 import unittest
 
 
-def merge_sort(alist):
+def merge_sort(alist, start=None, end=None):
     """
     Merge sort the input list and return sorted list.
+    :param start: The start index of the list to be sorted.
+    :param end: The end index of the list to be sorted.
     :param alist: The list to sort.
-    :return: The sorted list.
     """
-    length = len(alist)
+    if not alist:
+        return
+    total_length = len(alist)
+    if start is None:
+        start = 0
+    if end is None:
+        end = total_length
+    if start < 0 or start >= end or end > total_length:
+        raise Exception('Illegal start end argument for merge_sort')
+    length = end - start
     if length <= 1:
-        return alist
+        return
+    elif length == 2:
+        if alist[start] > alist[end - 1]:
+            alist[start], alist[end - 1] = alist[end - 1], alist[start]
     else:
-        a = merge_sort(alist[:length // 2])
-        b = merge_sort(alist[length // 2:])
-        if len(a) + len(b) != length:
-            raise Exception('Wrong split the array')
-        c = []
+        middle = start + length // 2
+        merge_sort(alist, start, middle)
+        merge_sort(alist, middle, end)
+        # Drawback of merge sort algorithm that requires extra memory space for merging
+        a = alist[start:middle]
+        b = alist[middle:end]
         i = 0
         j = 0
         max_i = len(a) - 1
         max_j = len(b) - 1
-        for k in range(0, length):
+        for k in range(start, end):
             if i <= max_i and j <= max_j:
                 if a[i] < b[j]:
-                    c.append(a[i])
+                    alist[k] = a[i]
                     i += 1
                 else:
-                    c.append(b[j])
+                    alist[k] = b[j]
                     j += 1
             elif i <= max_i:
-                c.append(a[i])
+                alist[k] = a[i]
                 i += 1
             elif j <= max_j:
-                c.append(b[j])
+                alist[k] = b[j]
                 j += 1
-        return c
+
+
+def quick_sort(alist, start=None, end=None):
+    """
+    Quick sort algorithm implementation.
+    :param alist: The list to sort.
+    :param start: The start index of the list to be processed.
+    :param end: The end index of the list to processed.
+    """
+    pass
 
 
 class TestSorting(unittest.TestCase):
     def setUp(self):
         self.input = [1, 4, 8, 95, 20, 400, 83, 44, 0, 11, 4444, 3]
 
-    def merge_sort_test(self, ainput):
-        output = merge_sort(ainput)
+    def merge_sort_test(self, alist):
+        merge_sort(alist)
         # print(output)
-        self.assertTrue(len(output) == len(ainput))
-        for idx in range(0, len(output) - 1):
-            self.assertTrue(output[idx] <= output[idx + 1])
+        for idx in range(0, len(alist) - 1):
+            self.assertTrue(alist[idx] <= alist[idx + 1])
 
     def test_merge_sort(self):
         self.merge_sort_test(self.input)

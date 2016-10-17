@@ -1,27 +1,35 @@
 import unittest
 
 
-def inversions_fast(alist):
+def inversions_fast(alist, start=None, end=None):
     """
     Counting the number of the inversions of the input list and return the number.
+    :param start: The start index of the list to be processed.
+    :param end:  The end index of the list to be processed.
     :param alist: The list to sort.
     :return: The number of inversions.
     """
-    length = len(alist)
+    total_length = len(alist)
+    if start is None:
+        start = 0
+    if end is None:
+        end = total_length
+    length = end - start
+    if start < 0 or end > total_length or start >= end:
+        raise Exception('Illegal start end argument for inversions_fast')
     if length <= 1:
         return 0
-    elif length <= 2:
-        return alist[0] > alist[1] and 1 or 0
+    elif length == 2:
+        return alist[start] > alist[end-1] and 1 or 0
     else:
-        a = alist[:length // 2]
-        b = alist[length // 2:]
-        if len(a) + len(b) != length:
-            raise Exception('Wrong split the array')
-        a_res = inversions_fast(a)
-        b_res = inversions_fast(b)
+        middle = start + length//2
+        a_res = inversions_fast(alist, start, middle)
+        b_res = inversions_fast(alist, middle, end)
         from src.sorting import merge_sort
-        a = merge_sort(a)
-        b = merge_sort(b)
+        a = alist[start:middle]
+        b = alist[middle:end]
+        merge_sort(a)
+        merge_sort(b)
         merge_res = 0
         i = 0
         j = 0
@@ -52,10 +60,10 @@ class TestSorting(unittest.TestCase):
     def setUp(self):
         self.input = [1, 8, 9, 4, 100, 48, 999, 33, 222, 22, 7, 5]
 
-    def inversions_test(self, ainput):
-        nb_fast = inversions_fast(ainput)
+    def inversions_test(self, alist):
+        nb_fast = inversions_fast(alist)
         print('inversion_fast={0}'.format(nb_fast))
-        nb_slow = inversion_slow(ainput)
+        nb_slow = inversion_slow(alist)
         print('inversion_slow={0}'.format(nb_slow))
         self.assertTrue(nb_fast == nb_slow)
 
