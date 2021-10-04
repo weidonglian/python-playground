@@ -1,4 +1,6 @@
-import click, sys
+import click
+import sys
+
 
 @click.command()
 @click.option('--count', default=1, help='Number of greetings.')
@@ -9,6 +11,7 @@ def cli(count, name):
     for x in range(count):
         click.echo('Hello %s!' % name)
     sys.exit(1)
+
 
 if __name__ == '__main__':
     cli()
