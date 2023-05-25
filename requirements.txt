@@ -1,0 +1,8 @@
+fastai>=2.0.0
+graphviz
+matplotlib~=3.7.1
+pandas
+duckduckgo_search
+numpy~=1.24.3
+click~=8.1.3
+requests
