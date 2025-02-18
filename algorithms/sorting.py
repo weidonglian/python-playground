@@ -1,8 +1,18 @@
 import random
 import unittest
 from enum import Enum
+from typing import Protocol, Any, Optional
 
-def merge_sort(arr, start=None, end=None):
+
+class Comparable(Protocol):
+    def __lt__(self, other: Any) -> bool: ...
+
+    def __eq__(self, other: Any) -> bool: ...
+
+    def __le__(self, other: Any) -> bool: ...
+
+
+def merge_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Optional[int] = None):
     """
     Merge sort the input list and return sorted list.
     :param start: The start index of the list to be sorted.
@@ -57,7 +67,7 @@ class QsPivot(Enum):
     Random = 3
 
 
-def partition(arr, start, end, i_pivot):
+def partition[T: Comparable](arr: list[T], start: int, end: int, i_pivot: int) -> Optional[int]:
     """
     Partition the arr between [start, end) using the given index i_pivot
     :param arr: The list to partition.
@@ -90,7 +100,8 @@ def partition(arr, start, end, i_pivot):
     return i_pivot
 
 
-def quick_sort(arr, start=None, end=None, pivot=None):
+def quick_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Optional[int] = None,
+                              pivot: Optional[QsPivot] = None):
     """
     Quick sort algorithm implementation.
     :param pivot: The type of QsPivot.
@@ -139,7 +150,7 @@ class TestSorting(unittest.TestCase):
     def setUp(self):
         self.input = [1, 4, 8, 95, 20, 400, 83, 44, 0, 11, 4444, 3]
 
-    def sort_test(self, sort_method, arr):
+    def sort_test[T: Comparable](self, sort_method, arr: list[T]):
         sort_method(arr)
         for idx in range(0, len(arr) - 1):
             self.assertTrue(arr[idx] <= arr[idx + 1])

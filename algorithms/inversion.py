@@ -1,7 +1,8 @@
 import unittest
+from typing import Optional
+from sorting import Comparable, merge_sort
 
-
-def inversions_fast(arr, start=None, end=None):
+def inversions_fast[T: Comparable](arr: list[T], start: Optional[int] = None, end: Optional[int] = None) -> int:
     """
     Counting the number of the inversions of the input list and return the number.
     :param start: The start index of the list to be processed.
@@ -25,7 +26,6 @@ def inversions_fast(arr, start=None, end=None):
         middle = start + length // 2
         a_res = inversions_fast(arr, start, middle)
         b_res = inversions_fast(arr, middle, end)
-        from sorting import merge_sort
         a = arr[start:middle]
         b = arr[middle:end]
         merge_sort(a)
@@ -44,7 +44,7 @@ def inversions_fast(arr, start=None, end=None):
         return merge_res + a_res + b_res
 
 
-def inversion_slow(arr):
+def inversion_slow[T: Comparable](arr: list[T]) -> int:
     """
     Counting the number of inversion by O(N*N).
     """
@@ -57,18 +57,15 @@ def inversion_slow(arr):
 
 
 class TestSorting(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.input = [1, 8, 9, 4, 100, 48, 999, 33, 222, 22, 7, 5]
 
-    def inversions_test(self, arr):
-        nb_fast = inversions_fast(arr)
-        print('inversion_fast={0}'.format(nb_fast))
-        nb_slow = inversion_slow(arr)
-        print('inversion_slow={0}'.format(nb_slow))
-        self.assertTrue(nb_fast == nb_slow)
-
     def test_inversion(self):
-        self.inversions_test(self.input)
+        arr = self.input.copy()
+        nb_fast = inversions_fast(arr)
+        nb_slow = inversion_slow(arr)
+        self.assertEqual(nb_fast, nb_slow)
+
 
 if __name__ == '__main__':
     unittest.main()
