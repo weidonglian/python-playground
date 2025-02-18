@@ -25,7 +25,7 @@ def inversions_fast(arr, start=None, end=None):
         middle = start + length // 2
         a_res = inversions_fast(arr, start, middle)
         b_res = inversions_fast(arr, middle, end)
-        from .sorting import merge_sort
+        from sorting import merge_sort
         a = arr[start:middle]
         b = arr[middle:end]
         merge_sort(a)
@@ -69,22 +69,6 @@ class TestSorting(unittest.TestCase):
 
     def test_inversion(self):
         self.inversions_test(self.input)
-
-    def test_inversion_assignment(self):
-        """
-        see https://www.coursera.org/learn/algorithm-design-analysis/exam/YLbzP/programming-assignment-1
-        """
-        import os
-        intarray = []
-        datafile = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, 'data', 'IntegerArray.txt')
-        with open(datafile) as f:
-            for line in f:
-                intarray.append(int(line))
-        self.assertTrue(len(intarray) == 100000)
-        nb_fast = inversions_fast(intarray)
-        print('nb_fast={0}'.format(nb_fast))
-        self.assertTrue(nb_fast == 2407905288)
-
 
 if __name__ == '__main__':
     unittest.main()

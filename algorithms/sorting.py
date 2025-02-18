@@ -2,7 +2,6 @@ import random
 import unittest
 from enum import Enum
 
-
 def merge_sort(arr, start=None, end=None):
     """
     Merge sort the input list and return sorted list.
