@@ -12,7 +12,7 @@ class Comparable(Protocol):
     def __le__(self, other: Any) -> bool: ...
 
 
-def merge_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Optional[int] = None):
+def merge_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Optional[int] = None) -> None:
     """
     Merge sort the input list and return sorted list.
     :param start: The start index of the list to be sorted.
@@ -101,7 +101,7 @@ def partition[T: Comparable](arr: list[T], start: int, end: int, i_pivot: int) -
 
 
 def quick_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Optional[int] = None,
-                              pivot: Optional[QsPivot] = None):
+                              pivot: Optional[QsPivot] = None) -> None:
     """
     Quick sort algorithm implementation.
     :param pivot: The type of QsPivot.
@@ -150,7 +150,7 @@ class TestSorting(unittest.TestCase):
     def setUp(self):
         self.input = [1, 4, 8, 95, 20, 400, 83, 44, 0, 11, 4444, 3]
 
-    def sort_test[T: Comparable](self, sort_method, arr: list[T]):
+    def sort_test[T: Comparable](self, sort_method, arr: list[T]) -> None:
         sort_method(arr)
         for idx in range(0, len(arr) - 1):
             self.assertTrue(arr[idx] <= arr[idx + 1])

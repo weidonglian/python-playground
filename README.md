@@ -23,11 +23,14 @@ python-playground/
 
 ## Features
 
-- **Algorithms**: Data structures and algorithm implementations
-- **Machine Learning**: PyTorch, FastAI experiments and tutorials
-- **Computer Vision**: OpenCV tutorials and projects
-- **Web Development**: FastAPI examples
-- **Data Science**: Pandas, NumPy, and visualization examples
+- **🐍 Modern Python**: Uses Python 3.12+ with modern generic syntax
+- **⚡ Lightweight by default**: Only 18 core packages installed by default
+- **📦 Modular dependencies**: Install only what you need via optional groups
+- **🧮 Algorithms**: Data structures and algorithm implementations
+- **🤖 Machine Learning**: PyTorch, FastAI experiments and tutorials
+- **👁️ Computer Vision**: OpenCV tutorials and projects
+- **🌐 Web Development**: FastAPI examples
+- **📊 Data Science**: Pandas, NumPy, and visualization examples
 
 ## Setup
 

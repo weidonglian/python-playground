@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "A Python playground for learning algorithms, ML, and various Python libraries"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 authors = [
     { name = "weidonglian" }
 ]
@@ -17,9 +17,8 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 dependencies = [
@@ -122,7 +121,7 @@ dev-dependencies = [
 
 [tool.black]
 line-length = 88
-target-version = ['py310']
+target-version = ['py312']
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -144,7 +143,7 @@ multi_line_output = 3
 line_length = 88
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
