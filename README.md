@@ -31,32 +31,82 @@ python-playground/
 
 ## Setup
 
-This project uses [uv](https://github.com/astral-sh/uv) for package management.
+This project uses [uv](https://github.com/astral-sh/uv) for package management with **lightweight dependencies by default**.
 
-### Installation
+## Quick Start
+
+Install dependencies and run examples:
 
 ```bash
-# Install dependencies and create virtual environment
-uv sync
+# Install only core lightweight dependencies (recommended for basic usage)
+uv sync --no-dev
 
-# Install with development dependencies
+# Run examples (using the lightweight environment)
+uv run --no-dev python examples/fib_spiral.py
+uv run --no-dev python examples/single_cli.py --help
+
+# Or activate the environment and run directly
+source .venv/bin/activate
+python examples/fib_spiral.py
+```
+
+### Install Optional Dependencies by Topic
+
+```bash
+# For data science work
+uv sync --group data
+
+# For computer vision projects
+uv sync --group vision
+
+# For machine learning (includes PyTorch, FastAI)
+uv sync --group ml
+
+# For web development (FastAPI, Gradio)
+uv sync --group web
+
+# For Jupyter notebooks
+uv sync --group jupyter
+
+# For development tools
 uv sync --group dev
 
-# Install with Jupyter support
-uv sync --group jupyter
+# Install everything
+uv sync --group all
+```
+
+### Examples by Dependency Group
+
+```bash
+# Lightweight examples (default installation)
+uv run python examples/single_cli.py       # Uses: click
+uv run python examples/fib_spiral.py       # Uses: matplotlib, numpy
+
+# Data science examples (requires: uv sync --group data)
+# Most notebooks in notebooks/general/
+
+# Computer vision examples (requires: uv sync --group vision)
+# notebooks/opencv/
+
+# Machine learning examples (requires: uv sync --group ml)
+# notebooks/fastai/
+
+# Web examples (requires: uv sync --group web)
+uv run python examples/fastapi_hello_world.py
 ```
 
 ### Usage
 
 ```bash
-# Run a script
-uv run python examples/fastapi_hello_world.py
+# Run lightweight examples (work with default installation)
+uv run python examples/single_cli.py
+uv run python examples/fib_spiral.py
 
-# Run tests
-uv run pytest
+# Run tests (requires dev dependencies)
+uv sync --group dev && uv run pytest
 
-# Start Jupyter Lab
-uv run jupyter lab
+# Start Jupyter Lab (requires jupyter dependencies)
+uv sync --group jupyter && uv run jupyter lab
 
 # Activate virtual environment manually
 source .venv/bin/activate

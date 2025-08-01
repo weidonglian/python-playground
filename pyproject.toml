@@ -23,23 +23,15 @@ classifiers = [
 ]
 
 dependencies = [
-    "fastai",
-    "graphviz",
-    "matplotlib",
-    "pandas",
-    "duckduckgo-search",
-    "numpy",
-    "fastapi[standard]",
-    "pydantic",
-    "click",
-    "requests",
-    "gradio",
-    "torch",
-    "torchvision",
-    "torchaudio",
+    # Lightweight core dependencies
+    "click",          # CLI utilities
+    "requests",       # HTTP requests
+    "matplotlib",     # Basic plotting
+    "numpy",          # Numeric computing (lightweight)
 ]
 
 [project.optional-dependencies]
+# Development tools
 dev = [
     "pytest",
     "black",
@@ -48,10 +40,58 @@ dev = [
     "mypy",
     "pre-commit",
 ]
+
+# Jupyter notebook support
 jupyter = [
     "jupyter",
     "ipykernel",
     "ipywidgets",
+]
+
+# Data science and analysis
+data = [
+    "pandas",
+    "seaborn",
+    "plotly",
+    "scipy",
+    "scikit-learn",
+]
+
+# Computer vision
+vision = [
+    "opencv-python",
+    "pillow",
+    "imageio",
+]
+
+# Deep learning and AI
+ml = [
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "fastai",
+    "transformers",
+]
+
+# Web development
+web = [
+    "fastapi[standard]",
+    "pydantic",
+    "gradio",
+    "streamlit",
+]
+
+# Utilities and tools
+tools = [
+    "graphviz",
+    "duckduckgo-search",
+    "python-dotenv",
+    "rich",
+]
+
+# All optional dependencies (for full installation)
+all = [
+    "python-playground[data,vision,ml,web,tools,jupyter]",
 ]
 
 [project.urls]
@@ -79,11 +119,6 @@ dev-dependencies = [
     "mypy>=1.0",
     "pre-commit>=3.0",
 ]
-
-[[tool.uv.index]]
-name = "pytorch"
-url = "https://download.pytorch.org/whl/cu118"
-explicit = true
 
 [tool.black]
 line-length = 88
