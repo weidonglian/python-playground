@@ -1,5 +1,3 @@
-import random
-import unittest
 from enum import Enum
 from typing import Protocol, Any, Optional
 
@@ -144,44 +142,3 @@ def quick_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Op
             quick_sort(arr, start, i_pivot)
         if end - i_pivot > 2:
             quick_sort(arr, i_pivot, end)
-
-
-class TestSorting(unittest.TestCase):
-    def setUp(self):
-        self.input = [1, 4, 8, 95, 20, 400, 83, 44, 0, 11, 4444, 3]
-
-    def sort_test[T: Comparable](self, sort_method, arr: list[T]) -> None:
-        sort_method(arr)
-        for idx in range(0, len(arr) - 1):
-            self.assertTrue(arr[idx] <= arr[idx + 1])
-
-    def test_partition(self):
-        arr = [1, 4, 8, 95, 20, 40, 83, 65, 0, 111, 4444, 3]
-        i_pivot = 3
-        pivot = arr[i_pivot]
-        i_pivot = partition(arr, 0, len(arr), i_pivot)
-        self.assertTrue(0 <= i_pivot < len(arr))
-        self.assertTrue(arr[i_pivot] == pivot)
-        for i in range(0, len(arr)):
-            if i < i_pivot:
-                self.assertTrue(arr[i] <= arr[i_pivot])
-            elif i > i_pivot:
-                self.assertTrue(arr[i] >= arr[i_pivot])
-
-    def test_merge_sort(self):
-        self.sort_test(merge_sort, self.input)
-
-    def test_merge_sort_random(self):
-        for j in range(0, 200):
-            self.sort_test(merge_sort, [int(1000 * random.random()) for _ in range(1000)])
-
-    def test_quick_sort(self):
-        self.sort_test(quick_sort, self.input)
-
-    def test_quick_sort_random(self):
-        for j in range(0, 200):
-            self.sort_test(quick_sort, [int(1000 * random.random()) for _ in range(1000)])
-
-
-if __name__ == '__main__':
-    unittest.main()
