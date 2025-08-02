@@ -1,6 +1,5 @@
 """Sample test file for algorithms module."""
 
-import pytest
 from python_playground.algorithms import sorting
 
 

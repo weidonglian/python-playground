@@ -1,6 +1,8 @@
 import random
 import pytest
-from python_playground.algorithms.sorting import merge_sort, quick_sort, partition, QsPivot
+from python_playground.algorithms.sorting import (
+    merge_sort, quick_sort, partition, QsPivot
+)
 
 
 # Simple Go-style tests (no classes needed)

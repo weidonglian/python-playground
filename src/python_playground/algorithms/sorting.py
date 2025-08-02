@@ -10,22 +10,32 @@ class Comparable(Protocol):
     def __le__(self, other: Any) -> bool: ...
 
 
-def merge_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Optional[int] = None) -> None:
+def merge_sort[T: Comparable](
+    arr: list[T], start: Optional[int] = None, end: Optional[int] = None
+) -> None:
     """
-    Merge sort the input list and return sorted list.
-    :param start: The start index of the list to be sorted.
-    :param end: The end index of the list to be sorted.
-    :param arr: The list to sort.
+    Merge sort the input list in-place.
+
+    Args:
+        arr: The list to sort
+        start: The start index of the list to be sorted (inclusive)
+        end: The end index of the list to be sorted (exclusive)
+
+    Raises:
+        ValueError: If start/end indices are invalid
     """
     if not arr:
         return
+
     total_length = len(arr)
     if start is None:
         start = 0
     if end is None:
         end = total_length
+
     if start < 0 or start >= end or end > total_length:
-        raise Exception('Illegal start end argument for merge_sort')
+        raise ValueError('Invalid start/end arguments for merge_sort')
+
     length = end - start
     if length <= 1:
         return
@@ -65,62 +75,89 @@ class QsPivot(Enum):
     Random = 3
 
 
-def partition[T: Comparable](arr: list[T], start: int, end: int, i_pivot: int) -> Optional[int]:
+def partition[T: Comparable](
+    arr: list[T], start: int, end: int, i_pivot: int
+) -> int:
     """
-    Partition the arr between [start, end) using the given index i_pivot
-    :param arr: The list to partition.
-    :param start: Start element.
-    :param end: End element.
-    :param i_pivot: The index of the pivot element.
+    Partition the arr between [start, end) using the given index i_pivot.
+
+    Args:
+        arr: The list to partition
+        start: Start element index (inclusive)
+        end: End element index (exclusive)
+        i_pivot: The index of the pivot element
+
+    Returns:
+        The final position of the pivot element
+
+    Raises:
+        ValueError: If indices are invalid
     """
     if not arr:
-        return None
+        raise ValueError("Cannot partition empty array")
+
     total_length = len(arr)
     if start < 0 or start >= end or end > total_length:
-        raise Exception('Illegal start end argument for partition')
+        raise ValueError('Invalid start/end arguments for partition')
     if i_pivot < start or i_pivot >= end:
-        raise Exception('i_pivot has to be [start, end)')
+        raise ValueError('i_pivot must be in range [start, end)')
+
     if i_pivot != start:
         arr[i_pivot], arr[start] = arr[start], arr[i_pivot]
+
     left = start
     right = end - 1
     i_pivot = left
+
     while left < right:
-        while left < end and arr[left] <= arr[i_pivot]:  # Move left if item < pivot
+        while left < end and arr[left] <= arr[i_pivot]:  # Move left if item <= pivot
             left += 1
-        while right >= start and arr[right] > arr[i_pivot]:  # Move right if item > pivot
+        while right >= start and arr[right] > arr[i_pivot]:  # Move right
             right -= 1
         if left < right:
             arr[left], arr[right] = arr[right], arr[left]
+
     # right is then the final location
     arr[right], arr[i_pivot] = arr[i_pivot], arr[right]
     i_pivot = right
     return i_pivot
 
 
-def quick_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Optional[int] = None,
-                              pivot: Optional[QsPivot] = None) -> None:
+def quick_sort[T: Comparable](
+    arr: list[T],
+    start: Optional[int] = None,
+    end: Optional[int] = None,
+    pivot: Optional[QsPivot] = None,
+) -> None:
     """
     Quick sort algorithm implementation.
-    :param pivot: The type of QsPivot.
-    :param arr: The list to sort.
-    :param start: The start index of the list to be processed.
-    :param end: The end index of the list to processed.
-    :return The pivot index after partition.
+
+    Args:
+        arr: The list to sort
+        start: The start index of the list to be processed (inclusive)
+        end: The end index of the list to be processed (exclusive)
+        pivot: The type of pivot selection strategy
+
+    Raises:
+        ValueError: If indices are invalid or pivot type is wrong
     """
     if not arr:
         return
+
     total_length = len(arr)
     if start is None:
         start = 0
     if end is None:
         end = total_length
+
     if start < 0 or start >= end or end > total_length:
-        raise Exception('Illegal start end argument for quick_sort')
+        raise ValueError('Invalid start/end arguments for quick_sort')
+
     if pivot is None:
         pivot = QsPivot.Random
-    if type(pivot) is not QsPivot:
-        raise Exception('Illegal input pivot, it has to QsPivot')
+    if not isinstance(pivot, QsPivot):
+        raise ValueError('pivot must be a QsPivot enum value')
+
     length = end - start
     if length <= 1:
         return
@@ -135,9 +172,11 @@ def quick_sort[T: Comparable](arr: list[T], start: Optional[int] = None, end: Op
         else:
             from random import randint
             i_pivot = randint(start, end - 1)
+
         i_pivot = partition(arr, start, end, i_pivot)
         if i_pivot < start or i_pivot >= end:
-            raise Exception('Wrong i_pivot after partition process.')
+            raise ValueError('Invalid pivot index after partition')
+
         if i_pivot - start > 1:
             quick_sort(arr, start, i_pivot)
         if end - i_pivot > 2:

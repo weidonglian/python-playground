@@ -36,16 +36,17 @@ for X, y in test_dataloader:
 # %%
 if torch.cuda.is_available():
     device = torch.device("cuda")  # Use GPU
-elif torch.backends.mps.is_available(): # Check for Apple Silicon GPU
-    device = torch.device("mps") # Use MPS GPU
+elif torch.backends.mps.is_available():  # Check for Apple Silicon GPU
+    device = torch.device("mps")  # Use MPS GPU
 else:
     device = torch.device("cpu")  # Use CPU
 
 print(f"Using {device} device")
 
+
 # Define model
 class NeuralNetwork(nn.Module):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.flatten = nn.Flatten()
         self.linear_relu_stack = nn.Sequential(
@@ -56,10 +57,11 @@ class NeuralNetwork(nn.Module):
             nn.Linear(512, 10)
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.flatten(x)
         logits = self.linear_relu_stack(x)
         return logits
+
 
 model = NeuralNetwork().to(device)
 print(model)
@@ -69,7 +71,14 @@ loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
 
 # %%
-def train(dataloader, model, loss_fn, optimizer):
+
+
+def train(
+    dataloader: DataLoader,
+    model: nn.Module,
+    loss_fn: nn.Module,
+    optimizer: torch.optim.Optimizer,
+) -> None:
     size = len(dataloader.dataset)
     model.train()
     for batch, (X, y) in enumerate(dataloader):
@@ -88,12 +97,18 @@ def train(dataloader, model, loss_fn, optimizer):
             loss, current = loss.item(), (batch + 1) * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
+
 # %%
-def test(dataloader, model, loss_fn):
+def test(
+    dataloader: DataLoader,
+    model: nn.Module,
+    loss_fn: nn.Module,
+) -> None:
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
     model.eval()
-    test_loss, correct = 0, 0
+    test_loss: float = 0.0
+    correct: float = 0.0
     with torch.no_grad():
         for X, y in dataloader:
             X, y = X.to(device), y.to(device)
@@ -102,7 +117,9 @@ def test(dataloader, model, loss_fn):
             correct += (pred.argmax(1) == y).type(torch.float).sum().item()
     test_loss /= num_batches
     correct /= size
-    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, "
+          f"Avg loss: {test_loss:>8f} \n")
+
 
 # %% training process
 epochs = 5
