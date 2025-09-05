@@ -5,10 +5,10 @@ import random
 import time
 from typing import List, Callable
 
-from python_playground.algorithms.sorting import (
+from ..algorithms.sorting import (
     merge_sort, quick_sort, QsPivot, Comparable
 )
-from python_playground.algorithms.inversion import inversions_fast, inversion_slow
+from ..algorithms.inversion import inversions_fast, inversion_slow
 
 
 def generate_random_array(
