@@ -23,10 +23,12 @@ classifiers = [
 
 dependencies = [
     # Lightweight core dependencies
-    "click",          # CLI utilities
-    "requests",       # HTTP requests
-    "matplotlib",     # Basic plotting
-    "numpy",          # Numeric computing (lightweight)
+    "click", # CLI utilities
+    "requests", # HTTP requests
+    "matplotlib", # Basic plotting
+    "numpy", # Numeric computing (lightweight)
+    "fastapi>=0.116.1",
+    "uvicorn>=0.35.0",
 ]
 
 [project.optional-dependencies]

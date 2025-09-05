@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+import uvicorn
 
 app = FastAPI()
 
@@ -34,3 +35,8 @@ async def get_burgers(number: int) -> list[dict]:
 async def read_burgers():
     burgers = await get_burgers(2)
     return burgers
+
+if __name__ == "__main__":
+    # Swagger UI: http://localhost:8000/docs
+    # ReDoc: http://localhost:8000/redoc
+    uvicorn.run(app, host="0.0.0.0", port=8000)
