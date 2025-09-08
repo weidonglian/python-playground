@@ -1,4 +1,5 @@
 import os
+import sys
 from tabnanny import verbose
 from dotenv import load_dotenv
 from pydantic import BaseModel
@@ -19,7 +20,8 @@ class CodeContext(BaseModel):
     include_tests: bool
     include_docstrings: bool
 
-async def main():
+async def run_agent_with_prompt(prompt: str):
+    """Run the agent with a given prompt"""
     # Create agent with Google's Gemini model
     agent = Agent(
         model=GoogleModel(model_name="gemini-2.5-flash"),
@@ -38,12 +40,55 @@ async def main():
         include_docstrings=True,
     )
 
-    result = await agent.run(
-        "Write a Python function that takes a list of numbers and returns the sum of the even numbers.",
-        deps=context,
-    )
+    try:
+        result = await agent.run(prompt, deps=context)
 
-    print(result)
+        # Pretty print the result
+        print("=" * 80)
+        print("🤖 AI Agent Response")
+        print("=" * 80)
+        print()
+        print(result.output)
+        print()
+        print("=" * 80)
+
+    except Exception as e:
+        print(f"❌ Error: {e}")
+
+async def interactive_mode():
+    """Run the agent in interactive mode"""
+    print("🤖 AI Agent - Interactive Mode")
+    print("Enter your prompts (or 'quit' to exit)")
+    print("-" * 60)
+
+    while True:
+        try:
+            user_prompt = input("\n💭 Your prompt: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\n👋 Goodbye!")
+            break
+
+        if user_prompt.lower() in ['quit', 'exit', 'q']:
+            print("👋 Goodbye!")
+            break
+
+        if not user_prompt:
+            print("❌ Please enter a prompt!")
+            continue
+
+        print("\n🔄 Processing...")
+        await run_agent_with_prompt(user_prompt)
+
+async def main():
+    # Check if prompt is provided as command line argument
+    if len(sys.argv) > 1:
+        # Use command line argument as prompt
+        prompt = " ".join(sys.argv[1:])
+        print(f"🔄 Processing prompt: {prompt}")
+        await run_agent_with_prompt(prompt)
+    else:
+        # Run in interactive mode
+        await interactive_mode()
 
 if __name__ == "__main__":
     import asyncio
