@@ -100,9 +100,9 @@ all = [
 Homepage = "https://github.com/weidonglian/python-playground"
 Repository = "https://github.com/weidonglian/python-playground"
 
-# Build configuration
+# Build configuration - simplified for playground use
 [tool.hatch.build.targets.wheel]
-packages = ["src/python_playground"]
+packages = ["src"]
 
 [tool.hatch.build.targets.sdist]
 include = [
