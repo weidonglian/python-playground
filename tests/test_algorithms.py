@@ -1,6 +1,6 @@
 """Sample test file for algorithms module."""
 
-from python_playground.algorithms import sorting
+from algorithms import sorting
 
 
 def test_sorting_module_exists():

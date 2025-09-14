@@ -1,6 +1,6 @@
 import random
 import pytest
-from python_playground.algorithms.sorting import (
+from algorithms.sorting import (
     merge_sort, quick_sort, partition, QsPivot
 )
 

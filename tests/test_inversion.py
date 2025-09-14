@@ -1,7 +1,7 @@
 """Tests for inversion counting algorithms."""
 
 import pytest
-from python_playground.algorithms.inversion import inversions_fast, inversion_slow
+from algorithms.inversion import inversions_fast, inversion_slow
 
 
 def test_inversion_empty():
